@@ -83,6 +83,9 @@ class Main:
             title = self.get_title()
         while True:
             if self.get_cur_time() == total_time:
+                print("当前视频播放完成!", end="\r")
+                time.sleep(3)
+                self.wd.refresh()
                 break
             time.sleep(1)
 
@@ -141,6 +144,7 @@ class Main:
                 self.wd.execute_script("arguments[0].click();", lesson)  # 点击课程
                 time.sleep(3)  # 点击课程后等3秒
                 self.watch(lesson_index, len(self.lessons))  # 若视频未完成就观看
+                time.sleep(3)  # 看完等待3秒
 
     def final_check(self):
         """
@@ -150,6 +154,7 @@ class Main:
         print("刷新页面，重新检查课程完成情况......", end="\r")
         self.wd.refresh()  # 刷新页面
         self.run()  # 重新运行
+        print(f'视频全部完成!开始时间：{self.start_time}，当前时间：{time.strftime("%m-%d %H:%M:%S")}', end="\r")
 
 
 if __name__ == '__main__':
