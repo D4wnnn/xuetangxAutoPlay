@@ -132,6 +132,8 @@ class Main:
                                            '#app > div > div.app-main_.appMain > div.courseActionLesson > div.courseAction_lesson_left.lesson_left > div.list > div > ul > li > ul > li.detail > ul > li > div')
 
         for lesson_index in range(len(outer_divs)):
+            outer_divs = self.wd.find_elements(By.CSS_SELECTOR,
+                                               '#app > div > div.app-main_.appMain > div.courseActionLesson > div.courseAction_lesson_left.lesson_left > div.list > div > ul > li > ul > li.detail > ul > li > div')
             flag = outer_divs[lesson_index].find_elements(By.CSS_SELECTOR,
                                                           'i.iconfont.percentFull')  # 根据是否由完成的icon判读视频完成情况
             if len(flag) != 0:  # finished
