@@ -82,9 +82,9 @@ class Main:
             total_time = self.get_total_time()
             title = self.get_title()
         while True:
-            if self.get_cur_time() == total_time:
-                print("当前视频播放完成!", end="\r")
+            if total_time - self.get_cur_time() <= 1:
                 time.sleep(3)
+                print("当前视频播放完成!", end="\r")
                 self.wd.refresh()
                 break
             time.sleep(1)
@@ -144,9 +144,9 @@ class Main:
                 self.refresh_lessons()  # 刷新课程列表，将每节课的开始按钮放入self.lessons
                 lesson = self.lessons[lesson_index]  # 选择第lesson_index节课
                 self.wd.execute_script("arguments[0].click();", lesson)  # 点击课程
-                time.sleep(3)  # 点击课程后等3秒
+                time.sleep(5)  # 点击课程后等5秒
                 self.watch(lesson_index, len(self.lessons))  # 若视频未完成就观看
-                time.sleep(3)  # 看完等待3秒
+                time.sleep(5)  # 看完等待3秒
 
     def final_check(self):
         """
