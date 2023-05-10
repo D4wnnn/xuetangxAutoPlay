@@ -132,21 +132,25 @@ class Main:
                                            '#app > div > div.app-main_.appMain > div.courseActionLesson > div.courseAction_lesson_left.lesson_left > div.list > div > ul > li > ul > li.detail > ul > li > div')
 
         for lesson_index in range(len(outer_divs)):
-            outer_divs = self.wd.find_elements(By.CSS_SELECTOR,
-                                               '#app > div > div.app-main_.appMain > div.courseActionLesson > div.courseAction_lesson_left.lesson_left > div.list > div > ul > li > ul > li.detail > ul > li > div')
-            flag = outer_divs[lesson_index].find_elements(By.CSS_SELECTOR,
-                                                          'i.iconfont.percentFull')  # 根据是否由完成的icon判读视频完成情况
-            if len(flag) != 0:  # finished
-                print(
-                    f'跳过已完成课程{lesson_index + 1},开始时间：{self.start_time}，当前时间：{time.strftime("%m-%d %H:%M:%S")}',
-                    end="\r")
-            else:  # unfinished
-                self.refresh_lessons()  # 刷新课程列表，将每节课的开始按钮放入self.lessons
-                lesson = self.lessons[lesson_index]  # 选择第lesson_index节课
-                self.wd.execute_script("arguments[0].click();", lesson)  # 点击课程
-                time.sleep(5)  # 点击课程后等5秒
-                self.watch(lesson_index, len(self.lessons))  # 若视频未完成就观看
-                time.sleep(5)  # 看完等待3秒
+            try:
+                outer_divs = self.wd.find_elements(By.CSS_SELECTOR,
+                                                   '#app > div > div.app-main_.appMain > div.courseActionLesson > div.courseAction_lesson_left.lesson_left > div.list > div > ul > li > ul > li.detail > ul > li > div')
+                flag = outer_divs[lesson_index].find_elements(By.CSS_SELECTOR,
+                                                              'i.iconfont.percentFull')  # 根据是否由完成的icon判读视频完成情况
+                if len(flag) != 0:  # finished
+                    print(
+                        f'跳过已完成课程{lesson_index + 1},开始时间：{self.start_time}，当前时间：{time.strftime("%m-%d %H:%M:%S")}',
+                        end="\r")
+                else:  # unfinished
+                    self.refresh_lessons()  # 刷新课程列表，将每节课的开始按钮放入self.lessons
+                    lesson = self.lessons[lesson_index]  # 选择第lesson_index节课
+                    self.wd.execute_script("arguments[0].click();", lesson)  # 点击课程
+                    time.sleep(4)  # 点击课程后等4秒
+                    self.watch(lesson_index, len(self.lessons))  # 若视频未完成就观看
+                    time.sleep(4)  # 看完等待4秒
+            except Exception as e:
+                print("\n")
+                print(e)
 
     def final_check(self):
         """
